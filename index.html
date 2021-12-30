@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscamina</title>
+    <style>
+        html{
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: sans-serif;
+        }
+
+        *{
+            transition: all 0.5s ;
+        }
+/*  */
+        body{
+            background-color: rgb(231, 240, 243);
+            z-index: 0;
+            margin: 0 0;
+        }
+
+        main{
+            background-color: rgb(136, 214, 214);
+            border: solid 2px rgb(110, 106, 106);
+            margin: 1rem auto;
+            width: min-content;
+            border-radius: 0.25rem;
+        }
+        header{
+            display: flex;
+            justify-content: space-between;
+            color: rgb(86, 211, 233);
+            background-color: rgb(115, 119, 118);
+            padding: 0.25rem;
+            text-align: center;
+            align-items: center;
+        }
+
+        header h1{
+            text-align: center;
+            margin-left: 1rem;
+        }
+
+        .setting-btn{
+            width: auto;
+            height: 100%;
+            padding: 0.4rem ;
+            align-items: center;
+            background-color:rgb(145, 240, 243);
+            color: rgb(35, 37, 39);
+            border-radius: 40%;
+            border: 1px solid rgb(150, 150, 150);
+        }
+
+        #stage{
+            margin: 0.5rem 1rem;
+            display: grid;
+            justify-items: center;
+            border:  2px outset rgb(110, 106, 106);
+            padding: 0.5rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        /* Botones */
+        #stage button,
+        #stage button:disabled{
+            padding: 0 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;   
+            background-color: rgba(128, 215, 236, 0.836); 
+            border: 5px outset rgb(235, 237, 238);
+            z-index: 1;
+        }
+        
+        #stage button:disabled{
+            border-color: dimgrey;
+        }
+
+        .is-active{   
+            background-color: rgba(102, 213, 247,0.8) !important; 
+            border: 1px solid rgba(111, 124, 128, 0.8) !important;
+        }
+        
+        .exploted{
+            background-color: rgb(253, 107, 97) !important;
+        }
+
+        .open{
+            background-color: whitesmoke;
+        }
+
+        #stage button img{
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #stage button i{
+            z-index: -1;
+        }
+
+    
+
+        #header{
+            margin: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #timer{
+            display: inline;
+            font-family: DS-digital ;
+            color: red;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background-color: black;
+            padding: 0.5rem;
+            width: 25%;
+            text-align: center;
+            border-radius: 0.25rem;
+        }
+
+        #flags{
+            display: inline;
+            font-family: DS-digital ;
+            color: red;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background-color: black;
+            padding: 0.5rem;
+            width: 25%;
+            text-align: center;
+            border-radius: 0.25rem;
+        }
+
+        .is-winner{
+            background-color: rgb(41, 221, 167);
+        }
+
+        .is-loser {
+            background-color: rgb(207, 75, 65) !important;
+        }
+
+        #reboot{
+            border-radius: 0.25rem;
+            font-size: 2rem;
+            border: 2px outset  rgba(111, 124, 128, 0.8);
+            padding: 0.5rem;
+            background-color: rgb(127, 148, 151);
+            color: rgb(102, 213, 247);
+        }
+
+        #reboot:hover{
+           background-color: rgb(102, 213, 247);
+           color:rgb(127, 148, 151);
+       }
+
+        .message-bg{
+            opacity: 0;
+            z-index: -1;
+            position: fixed;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;   
+            width: 100%;
+            height: 100%;
+            background: rgba(145, 145, 145, 0.61);
+        }
+
+        .message{  
+            z-index: 100;
+            padding: 2rem;
+            text-align: center;
+            background-color: #eeee;
+            border-radius: 0.25rem;
+            font-size: 1.5rem;
+            width: fit-content;
+            height: fit-content;
+        }
+
+        .win{
+            border-top: blue 7.5px solid;
+        }
+
+        .lose{
+            border-top: rgb(207, 75, 65) 7.5px solid;
+        }
+
+        .difficulty-container{
+            opacity: 0;
+            z-index: -10;
+            position: fixed;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;   
+            width: 100%;
+            height: 100%;
+            background: rgba(145, 145, 145, 0.61);
+        }
+
+        .difficulty-form{
+            z-index: -1;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            
+            flex-direction: column;
+            width: fit-content;
+            padding: 1.5rem;
+            background-color: white;
+
+            border: 1px solid black;
+            border-radius: 0.25rem;
+            box-shadow: 0px 3px 20px rgba(41, 40, 40, 0.534);
+        }
+        .difficulty-form h2 {
+            text-align: center;
+            font-weight: 400;
+            padding: 0rem;
+            margin: 0;
+        }
+
+        .difficulty-form div{
+            margin: 0.25rem auto ;
+            padding: 0.5rem;
+        }
+
+        .difficulty-form #dificult{
+            width: 40%;
+        }
+        .difficulty-form #submit{
+            width: max-content;
+            margin:0 auto;
+            
+            padding: 0.5rem 2rem;
+            border: 1px solid rgb(99, 99, 99);
+            border-radius: 0.25rem;
+            font-weight: 500;
+            font-size: 1.25rem;
+        }
+
+        .show-options{
+            opacity: 1;
+            z-index: 100;
+            position: fixed;
+
+        }
+
+        @keyframes animation-message {
+            from{
+                scale: 1;
+            }
+            to{
+
+            }
+            
+        }
+
+        .fa-cog{
+            font-size: 2rem;
+        }
+
+       
+        
+
+    </style>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+    <header>
+        <h1>Buscaminas con JavaScript</h1>
+        <button class="setting-btn"><i class="fas fa-cog "></i></button>
+    </header>
+    <main>
+        <div id="header">
+            <div id="timer"></div>
+            <button id="reboot"></button>
+            <div id="flags"></div>
+        </div> 
+        <div id="stage"></div>
+        <div id="message" class="message-bg"></div>
+    </main>
+
+    <div class="difficulty-container">
+        <form class="difficulty-form">
+            <h2>Configuracion</h2>
+            <div>
+                <label for="difficulty">Dificultad:</label>
+                <select name="difficulty" id="difficulty">
+                    <option value="easy">Facil</option>
+                    <option value="normal">Normal</option>
+                    <option value="hard">Dificil</option>
+                    <option value="custom">Personalizado</option>
+                </select>
+            </div>
+            <div id="custom"></div>
+            <button type="submit" id="submit">Jugar</button>
+        </form>
+
+    </div>
+    
+    <label for="row">Filas:</label>
+    <input type="number" name="row" id="row" min="6" max="25">
+    <label for="column">Columnas:</label>
+    <input type="number" name="column" id="column" min="6" max="25">
+    <label for="mines">Minas:</label>
+    <input type="number" name="mines" id="mines" min="6" max="25">
+   
+
+
+
+    
+    <!-- <div class='message-bg'><p class='message win'>¡Felicitaciones, has ganado!</p></div> -->
+    <!-- <div class='message-bg'><p class='message lose'>Lo siento, has perdido</p></div> -->
+    <script src="src/index.js" type="module"></script>
+    <script type="module">
+        
+        
+    </script>
+</body>
+</html>
