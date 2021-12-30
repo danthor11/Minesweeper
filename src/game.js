@@ -103,8 +103,8 @@ Game.prototype.render = function(){
                 
             }
             if(doubt){
-                $cell.innerHTML=`<i class="fas fa-question" data-column=${el.column}
-                                    data-row=${el.row}></i>`
+                $cell.innerHTML=`<img src="../assets/dudoso.png" alt="doubt" data-column=${el.column}
+                                    data-row=${el.row}></img>`
                
                     
             }
