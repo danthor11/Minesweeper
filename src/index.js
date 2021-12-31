@@ -14,8 +14,8 @@ const DIFFICULT = {
     },
     hard:{
         row:18,
-        column:20,
-        mines: 129
+        column:15,
+        mines: 90
     },
     custom: {
         row:0,
